@@ -8,7 +8,6 @@ workflows:
     '.github/workflows/ci.yml':
         - 'actions/checkout@v7.0.1'
         - 'actions/setup-go@v7.0.0'
-    '.github/workflows/dependabot-auto-merge.yml': []
     '.github/workflows/tagpr.yml':
         - 'actions/checkout@v7.0.1'
         - 'actions/setup-go@v7.0.0'
