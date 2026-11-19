@@ -7,14 +7,23 @@ import (
 	"github.com/ebitengine/purego"
 )
 
+const (
+	nullRef    uintptr = 0
+	osStatusOK int32   = 0
+)
+
 func selectSource(id string) error {
 	api, err := loadInputSourceAPI()
 	if err != nil {
 		return err
 	}
 
-	sources := api.createSourceList(0, false)
-	if sources == 0 {
+	return api.selectByID(id)
+}
+
+func (api *inputSourceAPI) selectByID(id string) error {
+	sources := api.createSourceList(nullRef, false)
+	if sources == nullRef {
 		return fmt.Errorf("could not enumerate enabled input sources")
 	}
 	defer api.release(sources)
@@ -23,7 +32,7 @@ func selectSource(id string) error {
 	if err != nil {
 		return err
 	}
-	if status := api.selectInputSource(source); status != 0 {
+	if status := api.selectInputSource(source); status != osStatusOK {
 		return fmt.Errorf("select %q: OSStatus %d", id, status)
 	}
 	return nil
@@ -43,19 +52,19 @@ type inputSourceAPI struct {
 
 func (api *inputSourceAPI) findByID(sources uintptr, id string) (uintptr, error) {
 	const utf8Encoding = 0x08000100
-	want := api.stringFromUTF8(0, id, utf8Encoding)
-	if want == 0 {
-		return 0, fmt.Errorf("invalid UTF-8 input source ID")
+	want := api.stringFromUTF8(nullRef, id, utf8Encoding)
+	if want == nullRef {
+		return nullRef, fmt.Errorf("invalid UTF-8 input source ID")
 	}
 	defer api.release(want)
 
 	for i := range api.arrayCount(sources) {
 		source := api.arrayValue(sources, i)
-		if sourceID := api.sourceProperty(source, api.idKey); sourceID != 0 && api.equal(sourceID, want) {
+		if sourceID := api.sourceProperty(source, api.idKey); sourceID != nullRef && api.equal(sourceID, want) {
 			return source, nil
 		}
 	}
-	return 0, fmt.Errorf("no enabled input source with ID %q", id)
+	return nullRef, fmt.Errorf("no enabled input source with ID %q", id)
 }
 
 func loadInputSourceAPI() (*inputSourceAPI, error) {
