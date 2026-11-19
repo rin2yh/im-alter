@@ -13,10 +13,10 @@ jobs:
         with:
           go-version-file: go.mod
       - run: go mod verify
-      - run: go build -o im-select .
+      - run: go build -o im-alter .
       - name: Check usage error
         run: |
           status=0
-          ./im-select || status=$?
+          ./im-alter || status=$?
           test "$status" -eq 2
-      - run: GOARCH=amd64 go build -o "$RUNNER_TEMP/im-select-amd64" .
+      - run: GOARCH=amd64 go build -o "$RUNNER_TEMP/im-alter-amd64" .

@@ -1,10 +1,10 @@
-# im-select
+# im-alter
 
 Select an enabled macOS input source by ID. Built with Go and purego.
 
 ```sh
-CGO_ENABLED=0 go build -o im-select .
-./im-select com.apple.keylayout.ABC
+CGO_ENABLED=0 go build -o im-alter .
+./im-alter com.apple.keylayout.ABC
 ```
 
 Selection succeeds silently. An unavailable source exits with status 1. Calling

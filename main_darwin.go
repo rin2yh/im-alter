@@ -1,4 +1,4 @@
-// Command im-select selects an enabled macOS input source by its identifier.
+// Command im-alter selects an enabled macOS input source by its identifier.
 package main
 
 import (
@@ -17,7 +17,7 @@ func init() {
 
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Fprintln(os.Stderr, "usage: im-select INPUT_SOURCE_ID")
+		fmt.Fprintln(os.Stderr, "usage: im-alter INPUT_SOURCE_ID")
 		os.Exit(2)
 	}
 	if err := selectSource(os.Args[1]); err != nil {

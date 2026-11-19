@@ -1,14 +1,14 @@
 version: 2
-project_name: im-select
+project_name: im-alter
 builds:
   - main: .
-    binary: im-select
+    binary: im-alter
     env: [CGO_ENABLED=0]
     flags: [-trimpath]
     goos: [darwin]
     goarch: [amd64, arm64]
 archives:
-  - name_template: 'im-select_v{{ .Version }}_{{ .Os }}_{{ .Arch }}'
+  - name_template: 'im-alter_v{{ .Version }}_{{ .Os }}_{{ .Arch }}'
 checksum:
   name_template: checksums.txt
 changelog:

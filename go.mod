@@ -1,4 +1,4 @@
-module github.com/rin2yh/im-select
+module github.com/rin2yh/im-alter
 
 go 1.25.0
 
