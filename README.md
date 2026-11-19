@@ -18,7 +18,9 @@ mise use -g github:rin2yh/im-alter
 im-alter abc
 ```
 
-For other input sources, pass the full macOS input source ID.
+Aliases: `abc` (ABC), `hiragana` (Japanese Romaji), and `us` (U.S.).
+
+Enable the input source in macOS first. For other sources, pass the full input source ID.
 
 ## License
 
