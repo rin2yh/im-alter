@@ -16,7 +16,7 @@ jobs:
       contents: write
       pull-requests: write
       issues: read
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 10
     # Serialize runs so concurrent pushes don't race the git data API (401).
     concurrency:
@@ -41,7 +41,7 @@ jobs:
   release:
     needs: tagpr
     if: needs.tagpr.outputs.tag != ''
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7.0.1
