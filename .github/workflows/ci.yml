@@ -21,29 +21,7 @@ jobs:
         with:
           configFile: commitlint.config.mjs
 
-  test:
-    runs-on: macos-15
-    env:
-      CGO_ENABLED: '0'
-    steps:
-      - uses: actions/checkout@v7.0.1
-      - uses: actions/setup-go@v7.1.0
-        with:
-          go-version-file: go.mod
-      - uses: golangci/golangci-lint-action@v9.3.0
-        with:
-          version-file: .golangci-lint-version
-      - run: go mod verify
-      - run: go test ./...
-      - run: go build -o "$RUNNER_TEMP/im-alter" .
-      - name: Check usage error
-        run: |
-          status=0
-          "$RUNNER_TEMP/im-alter" || status=$?
-          test "$status" -eq 2
-
   build:
-    needs: test
     runs-on: macos-15
     strategy:
       fail-fast: false
@@ -56,5 +34,21 @@ jobs:
       - uses: actions/setup-go@v7.1.0
         with:
           go-version-file: go.mod
+      - uses: golangci/golangci-lint-action@v9.3.0
+        if: matrix.goarch == 'arm64'
+        with:
+          version-file: .golangci-lint-version
+      - name: Verify modules
+        if: matrix.goarch == 'arm64'
+        run: go mod verify
+      - name: Test
+        if: matrix.goarch == 'arm64'
+        run: go test ./...
       - name: Build for macOS
         run: GOARCH=${{ matrix.goarch }} go build -trimpath -o "$RUNNER_TEMP/im-alter-${{ matrix.goarch }}" .
+      - name: Check usage error
+        if: matrix.goarch == 'arm64'
+        run: |
+          status=0
+          "$RUNNER_TEMP/im-alter-arm64" || status=$?
+          test "$status" -eq 2
