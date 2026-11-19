@@ -9,6 +9,7 @@ workflows:
         - 'actions/checkout@v7.0.1'
         - 'actions/setup-go@v7.1.0'
         - 'golangci/golangci-lint-action@v9.3.0'
+        - 'wagoid/commitlint-github-action@v6.2.1'
     '.github/workflows/tagpr.yml':
         - 'actions/checkout@v7.0.1'
         - 'actions/setup-go@v7.1.0'
@@ -40,3 +41,8 @@ dependencies:
         commit: 'sha1-047aec4b6c0ce166f52958b5a97f5a3d927fd65b'
         owner_id: 177122
         repo_id: 524603982
+    'wagoid/commitlint-github-action@v6.2.1':
+        ref: 'v6.2.1'
+        commit: 'sha1-b948419dd99f3fd78a6548d48f94e3df7f6bf3ed'
+        owner_id: 7467450
+        repo_id: 212203144

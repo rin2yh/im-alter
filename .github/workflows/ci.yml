@@ -10,6 +10,17 @@ concurrency:
 permissions:
   contents: read
 jobs:
+  commitlint:
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: wagoid/commitlint-github-action@v6.2.1
+        with:
+          configFile: commitlint.config.mjs
+
   test:
     runs-on: macos-15
     env:
