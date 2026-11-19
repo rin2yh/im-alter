@@ -10,7 +10,7 @@ concurrency:
 permissions:
   contents: read
 jobs:
-  build:
+  test:
     runs-on: macos-15
     env:
       CGO_ENABLED: '0'
@@ -24,10 +24,26 @@ jobs:
           version-file: .golangci-lint-version
       - run: go mod verify
       - run: go test ./...
-      - run: go build -o im-alter .
+      - run: go build -o "$RUNNER_TEMP/im-alter" .
       - name: Check usage error
         run: |
           status=0
-          ./im-alter || status=$?
+          "$RUNNER_TEMP/im-alter" || status=$?
           test "$status" -eq 2
-      - run: GOARCH=amd64 go build -o "$RUNNER_TEMP/im-alter-amd64" .
+
+  build:
+    needs: test
+    runs-on: macos-15
+    strategy:
+      fail-fast: false
+      matrix:
+        goarch: [amd64, arm64]
+    env:
+      CGO_ENABLED: '0'
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-go@v7.0.0
+        with:
+          go-version-file: go.mod
+      - name: Build for macOS
+        run: GOARCH=${{ matrix.goarch }} go build -trimpath -o "$RUNNER_TEMP/im-alter-${{ matrix.goarch }}" .
