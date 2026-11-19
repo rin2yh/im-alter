@@ -83,7 +83,7 @@ func loadInputSourceAPI() (*inputSourceAPI, error) {
 	}
 
 	// The exported variable contains the CFStringRef used as the property key.
-	api := &inputSourceAPI{idKey: *(*uintptr)(unsafe.Pointer(key))}
+	api := &inputSourceAPI{idKey: *(*uintptr)(unsafe.Pointer(key))} //nolint:govet // Dlsym returns the address of the framework global.
 	purego.RegisterLibFunc(&api.createSourceList, carbon, "TISCreateInputSourceList")
 	purego.RegisterLibFunc(&api.sourceProperty, carbon, "TISGetInputSourceProperty")
 	purego.RegisterLibFunc(&api.selectInputSource, carbon, "TISSelectInputSource")
