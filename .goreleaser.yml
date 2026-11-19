@@ -9,6 +9,9 @@ builds:
     goarch: [amd64, arm64]
 archives:
   - name_template: 'im-alter_v{{ .Version }}_{{ .Os }}_{{ .Arch }}'
+    files:
+      - LICENSE
+      - README.md
 checksum:
   name_template: checksums.txt
 changelog:

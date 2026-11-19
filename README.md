@@ -15,3 +15,7 @@ the command without exactly one argument prints usage and exits with status 2.
 tagpr opens a release pull request on pushes to main. Merging it tags the
 release and runs GoReleaser to publish macOS arm64 and amd64 archives and
 checksums to GitHub Releases.
+
+## License
+
+MIT. See [LICENSE](./LICENSE).
