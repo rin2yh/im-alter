@@ -13,22 +13,15 @@ func selectSource(id string) error {
 		return err
 	}
 
-	const utf8Encoding = 0x08000100
-	want := api.stringFromUTF8(0, id, utf8Encoding)
-	if want == 0 {
-		return fmt.Errorf("invalid UTF-8 input source ID")
-	}
-	defer api.release(want)
-
 	sources := api.createSourceList(0, false)
 	if sources == 0 {
 		return fmt.Errorf("could not enumerate enabled input sources")
 	}
 	defer api.release(sources)
 
-	source := api.findByID(sources, want)
-	if source == 0 {
-		return fmt.Errorf("no enabled input source with ID %q", id)
+	source, err := api.findByID(sources, id)
+	if err != nil {
+		return err
 	}
 	if status := api.selectInputSource(source); status != 0 {
 		return fmt.Errorf("select %q: OSStatus %d", id, status)
@@ -48,14 +41,21 @@ type inputSourceAPI struct {
 	release           func(uintptr)
 }
 
-func (api *inputSourceAPI) findByID(sources, want uintptr) uintptr {
+func (api *inputSourceAPI) findByID(sources uintptr, id string) (uintptr, error) {
+	const utf8Encoding = 0x08000100
+	want := api.stringFromUTF8(0, id, utf8Encoding)
+	if want == 0 {
+		return 0, fmt.Errorf("invalid UTF-8 input source ID")
+	}
+	defer api.release(want)
+
 	for i := range api.arrayCount(sources) {
 		source := api.arrayValue(sources, i)
-		if id := api.sourceProperty(source, api.idKey); id != 0 && api.equal(id, want) {
-			return source
+		if sourceID := api.sourceProperty(source, api.idKey); sourceID != 0 && api.equal(sourceID, want) {
+			return source, nil
 		}
 	}
-	return 0
+	return 0, fmt.Errorf("no enabled input source with ID %q", id)
 }
 
 func loadInputSourceAPI() (*inputSourceAPI, error) {
