@@ -4,6 +4,14 @@ Select an enabled macOS input source by ID. Built with Go and purego.
 
 ## Install
 
+### With mise
+
+```sh
+mise use -g github:rin2yh/im-alter@latest
+```
+
+### Manual download
+
 Download the archive for your Mac from [GitHub Releases](https://github.com/rin2yh/im-alter/releases).
 
 - Apple Silicon uses the `darwin_arm64` archive.
