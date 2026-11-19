@@ -15,8 +15,12 @@ mise use -g github:rin2yh/im-alter
 ## Usage
 
 ```sh
-im-alter com.apple.keylayout.ABC
+im-alter abc
 ```
+
+Aliases: `abc` (ABC), `hiragana` (Japanese Romaji), and `us` (U.S.).
+
+Enable the input source in macOS first. For other sources, pass the full input source ID.
 
 ## License
 
