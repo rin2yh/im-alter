@@ -1,0 +1,19 @@
+version: 2
+project_name: im-select
+builds:
+  - main: .
+    binary: im-select
+    env: [CGO_ENABLED=0]
+    flags: [-trimpath]
+    goos: [darwin]
+    goarch: [amd64, arm64]
+archives:
+  - name_template: 'im-select_v{{ .Version }}_{{ .Os }}_{{ .Arch }}'
+checksum:
+  name_template: checksums.txt
+changelog:
+  disable: true
+release:
+  use_existing_draft: true
+  draft: false
+  prerelease: auto

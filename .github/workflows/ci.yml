@@ -1,0 +1,22 @@
+name: CI
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: macos-15
+    env:
+      CGO_ENABLED: '0'
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-go@v7.0.0
+        with:
+          go-version-file: go.mod
+      - run: go mod verify
+      - run: go build -o im-select .
+      - name: Check usage error
+        run: |
+          status=0
+          ./im-select || status=$?
+          test "$status" -eq 2
+      - run: GOARCH=amd64 go build -o "$RUNNER_TEMP/im-select-amd64" .
