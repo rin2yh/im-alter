@@ -15,8 +15,10 @@ mise use -g github:rin2yh/im-alter
 ## Usage
 
 ```sh
-im-alter com.apple.keylayout.ABC
+im-alter abc
 ```
+
+For other input sources, pass the full macOS input source ID.
 
 ## License
 

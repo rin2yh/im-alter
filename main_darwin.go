@@ -14,10 +14,14 @@ func init() {
 
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Fprintln(os.Stderr, "usage: im-alter INPUT_SOURCE_ID")
+		fmt.Fprintln(os.Stderr, "usage: im-alter {abc|INPUT_SOURCE_ID}")
 		os.Exit(2)
 	}
-	if err := selectSource(os.Args[1]); err != nil {
+	id := os.Args[1]
+	if id == "abc" {
+		id = "com.apple.keylayout.ABC"
+	}
+	if err := selectSource(id); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
