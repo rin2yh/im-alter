@@ -28,31 +28,11 @@ func TestSelectByID(t *testing.T) {
 		input input
 		want  want
 	}{
-		{
-			name:  "select match",
-			input: input{id: id, sourceList: listRef, queryString: queryRef, sourceID: queryRef, selectStatus: osStatusOK},
-			want:  want{selected: true},
-		},
-		{
-			name:  "enumeration failed",
-			input: input{id: id},
-			want:  want{err: "could not enumerate enabled input sources"},
-		},
-		{
-			name:  "invalid ID",
-			input: input{id: "\xff", sourceList: listRef},
-			want:  want{err: "invalid UTF-8 input source ID"},
-		},
-		{
-			name:  "missing ID",
-			input: input{id: id, sourceList: listRef, queryString: queryRef},
-			want:  want{err: fmt.Sprintf("no enabled input source with ID %q", id)},
-		},
-		{
-			name:  "selection failed",
-			input: input{id: id, sourceList: listRef, queryString: queryRef, sourceID: queryRef, selectStatus: -50},
-			want:  want{err: fmt.Sprintf("select %q: OSStatus -50", id), selected: true},
-		},
+		{name: "select match", input: input{id: id, sourceList: listRef, queryString: queryRef, sourceID: queryRef, selectStatus: osStatusOK}, want: want{selected: true}},
+		{name: "enumeration failed", input: input{id: id}, want: want{err: "could not enumerate enabled input sources"}},
+		{name: "invalid ID", input: input{id: "\xff", sourceList: listRef}, want: want{err: "invalid UTF-8 input source ID"}},
+		{name: "missing ID", input: input{id: id, sourceList: listRef, queryString: queryRef}, want: want{err: fmt.Sprintf("no enabled input source with ID %q", id)}},
+		{name: "selection failed", input: input{id: id, sourceList: listRef, queryString: queryRef, sourceID: queryRef, selectStatus: -50}, want: want{err: fmt.Sprintf("select %q: OSStatus -50", id), selected: true}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
