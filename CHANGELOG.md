@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.1.0](https://github.com/rin2yh/im-alter/compare/v0.0.1...v0.1.0) - 2026-11-20
+
+- ci: run validation only on pull requests by @rin2yh in https://github.com/rin2yh/im-alter/pull/23
+
 ## [v0.0.1](https://github.com/rin2yh/im-alter/commits/v0.0.1) - 2026-11-19
 
 - 入力ソース切り替え処理を整理する by @rin2yh in https://github.com/rin2yh/im-alter/pull/2
